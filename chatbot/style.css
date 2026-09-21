@@ -1,0 +1,1206 @@
+/* =====================================================
+   VIT-AP PARENT INFORMATION ASSISTANT
+   ===================================================== */
+
+
+* {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+}
+
+
+body {
+
+    font-family:
+        Arial,
+        Helvetica,
+        sans-serif;
+
+    background: #f4f7fb;
+
+    color: #1e293b;
+
+    min-height: 100vh;
+
+}
+
+
+
+/* ================= HEADER ================= */
+
+.header {
+
+    background: white;
+
+    min-height: 80px;
+
+    padding: 15px 6%;
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    border-bottom: 1px solid #e2e8f0;
+
+}
+
+
+.brand {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 15px;
+
+}
+
+
+.vitap-logo {
+
+    width: 60px;
+
+    height: 60px;
+
+    object-fit: contain;
+
+}
+
+
+.brand-text h1 {
+
+    color: #163a70;
+
+    font-size: 22px;
+
+    margin-bottom: 4px;
+
+}
+
+
+.brand-text p {
+
+    color: #64748b;
+
+    font-size: 14px;
+
+}
+
+
+
+/* ================= LANGUAGE ================= */
+
+.language-section {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+}
+
+
+.language-section label {
+
+    color: #475569;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+}
+
+
+.language-section select {
+
+    padding: 9px 12px;
+
+    border: 1px solid #cbd5e1;
+
+    border-radius: 7px;
+
+    background: white;
+
+    color: #1e293b;
+
+    cursor: pointer;
+
+}
+
+
+
+/* ================= MAIN ================= */
+
+.main-container {
+
+    width: 92%;
+
+    max-width: 1100px;
+
+    margin: 30px auto 50px;
+
+}
+
+
+
+/* ================= WELCOME ================= */
+
+.welcome-section {
+
+    text-align: center;
+
+    margin-bottom: 25px;
+
+}
+
+
+.welcome-section h2 {
+
+    color: #163a70;
+
+    font-size: 28px;
+
+    margin-bottom: 10px;
+
+}
+
+
+.welcome-section p {
+
+    color: #64748b;
+
+    font-size: 16px;
+
+}
+
+
+.language-note {
+
+    margin-top: 12px;
+
+    color: #64748b;
+
+    font-size: 14px;
+
+}
+
+
+
+/* ================= CHAT CARD ================= */
+
+.chat-card {
+
+    background: white;
+
+    border: 1px solid #e2e8f0;
+
+    border-radius: 12px;
+
+    overflow: hidden;
+
+    box-shadow:
+        0 4px 15px rgba(15, 23, 42, 0.06);
+
+}
+
+
+
+/* ================= CHAT HEADER ================= */
+
+.chat-header {
+
+    background: #163a70;
+
+    color: white;
+
+    padding: 16px 20px;
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+}
+
+
+.chat-header h3 {
+
+    font-size: 18px;
+
+    margin-bottom: 5px;
+
+}
+
+
+.online-status {
+
+    font-size: 12px;
+
+    opacity: 0.9;
+
+}
+
+
+.online-dot {
+
+    width: 8px;
+
+    height: 8px;
+
+    background: #22c55e;
+
+    display: inline-block;
+
+    border-radius: 50%;
+
+    margin-right: 5px;
+
+}
+
+
+
+/* ================= STOP VOICE ================= */
+
+.header-audio-button {
+
+    width: 38px;
+
+    height: 38px;
+
+    border: none;
+
+    border-radius: 7px;
+
+    background: rgba(255, 255, 255, 0.15);
+
+    color: white;
+
+    cursor: pointer;
+
+    font-size: 18px;
+
+}
+
+
+.header-audio-button:hover {
+
+    background: rgba(255, 255, 255, 0.25);
+
+}
+
+
+
+/* ================= CHAT MESSAGES ================= */
+
+.chat-messages {
+
+    min-height: 360px;
+
+    max-height: 500px;
+
+    overflow-y: auto;
+
+    padding: 20px;
+
+    background: #f8fafc;
+
+}
+
+
+.message {
+
+    display: flex;
+
+    margin-bottom: 15px;
+
+}
+
+
+.bot-message {
+
+    justify-content: flex-start;
+
+}
+
+
+.user-message {
+
+    justify-content: flex-end;
+
+}
+
+
+.message-bubble {
+
+    max-width: 75%;
+
+    padding: 12px 15px;
+
+    border-radius: 10px;
+
+    line-height: 1.5;
+
+    font-size: 15px;
+
+}
+
+
+.bot-message .message-bubble {
+
+    background: white;
+
+    border: 1px solid #e2e8f0;
+
+    color: #334155;
+
+}
+
+
+.user-message .message-bubble {
+
+    background: #163a70;
+
+    color: white;
+
+}
+
+
+
+/* ================= SPEAKER ================= */
+
+.speaker-button {
+
+    border: none;
+
+    background: transparent;
+
+    cursor: pointer;
+
+    font-size: 16px;
+
+    margin-left: 8px;
+
+    vertical-align: middle;
+
+}
+
+
+.speaker-button:hover {
+
+    transform: scale(1.1);
+
+}
+
+
+.speaker-button.speaking {
+
+    animation: speakerPulse 0.8s infinite;
+
+}
+
+
+@keyframes speakerPulse {
+
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.2);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+
+}
+
+
+
+/* ================= QUICK QUESTIONS ================= */
+
+.quick-questions {
+
+    padding: 18px 20px 5px;
+
+}
+
+
+.quick-questions p {
+
+    color: #475569;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+    margin-bottom: 10px;
+
+}
+
+
+.quick-buttons {
+
+    display: flex;
+
+    gap: 10px;
+
+    flex-wrap: wrap;
+
+}
+
+
+.quick-buttons button {
+
+    background: white;
+
+    border: 1px solid #cbd5e1;
+
+    color: #163a70;
+
+    padding: 9px 14px;
+
+    border-radius: 7px;
+
+    cursor: pointer;
+
+    font-size: 13px;
+
+}
+
+
+.quick-buttons button:hover {
+
+    background: #f4f7fb;
+
+    border-color: #163a70;
+
+}
+
+
+
+/* ================= INPUT AREA ================= */
+
+.input-area {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 10px;
+
+    padding: 18px 20px;
+
+    border-top: 1px solid #e2e8f0;
+
+}
+
+
+.input-area input {
+
+    flex: 1;
+
+    min-width: 0;
+
+    height: 48px;
+
+    padding: 0 14px;
+
+    border: 1px solid #cbd5e1;
+
+    border-radius: 8px;
+
+    background: white;
+
+    color: #1e293b;
+
+    font-size: 15px;
+
+    outline: none;
+
+}
+
+
+.input-area input:focus {
+
+    border-color: #163a70;
+
+    box-shadow:
+        0 0 0 2px rgba(22, 58, 112, 0.08);
+
+}
+
+
+.input-area input::placeholder {
+
+    color: #94a3b8;
+
+}
+
+
+
+/* ================= MICROPHONE ================= */
+
+.audio-button {
+
+    width: 48px;
+
+    height: 48px;
+
+    flex-shrink: 0;
+
+    border: 1px solid #cbd5e1;
+
+    background: white;
+
+    color: #163a70;
+
+    border-radius: 8px;
+
+    cursor: pointer;
+
+    font-size: 20px;
+
+}
+
+
+.audio-button:hover {
+
+    background: #f4f7fb;
+
+}
+
+
+.audio-button.listening {
+
+    background: #fee2e2;
+
+    border-color: #ef4444;
+
+    animation: micPulse 1s infinite;
+
+}
+
+
+@keyframes micPulse {
+
+    0% {
+        transform: scale(1);
+    }
+
+    50% {
+        transform: scale(1.08);
+    }
+
+    100% {
+        transform: scale(1);
+    }
+
+}
+
+
+
+/* ================= SEND ================= */
+
+#send-button {
+
+    height: 48px;
+
+    padding: 0 20px;
+
+    border: none;
+
+    border-radius: 8px;
+
+    background: #163a70;
+
+    color: white;
+
+    cursor: pointer;
+
+    font-size: 15px;
+
+    font-weight: 600;
+
+    flex-shrink: 0;
+
+}
+
+
+#send-button:hover {
+
+    opacity: 0.92;
+
+}
+
+
+
+/* ================= VOICE STATUS ================= */
+
+.voice-status {
+
+    min-height: 20px;
+
+    padding: 0 20px 8px;
+
+    color: #64748b;
+
+    font-size: 13px;
+
+}
+
+
+
+/* ================= AUDIO SETTINGS ================= */
+
+.audio-settings {
+
+    border-top: 1px solid #e2e8f0;
+
+    padding: 15px 20px;
+
+}
+
+
+.audio-settings-title {
+
+    display: flex;
+
+    justify-content: space-between;
+
+    align-items: center;
+
+    color: #163a70;
+
+    font-size: 14px;
+
+    font-weight: 600;
+
+}
+
+
+.audio-settings-title button {
+
+    border: 1px solid #cbd5e1;
+
+    background: white;
+
+    color: #163a70;
+
+    padding: 6px 12px;
+
+    border-radius: 6px;
+
+    cursor: pointer;
+
+}
+
+
+.audio-settings-panel {
+
+    margin-top: 15px;
+
+}
+
+
+.hidden {
+
+    display: none;
+
+}
+
+
+.setting-row {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    gap: 20px;
+
+    padding: 12px 0;
+
+    border-top: 1px solid #f1f5f9;
+
+}
+
+
+.setting-row strong {
+
+    display: block;
+
+    color: #334155;
+
+    font-size: 14px;
+
+    margin-bottom: 4px;
+
+}
+
+
+.setting-row p {
+
+    color: #64748b;
+
+    font-size: 12px;
+
+}
+
+
+
+/* ================= SWITCH ================= */
+
+.switch {
+
+    position: relative;
+
+    display: inline-block;
+
+    width: 45px;
+
+    height: 24px;
+
+    flex-shrink: 0;
+
+}
+
+
+.switch input {
+
+    opacity: 0;
+
+    width: 0;
+
+    height: 0;
+
+}
+
+
+.slider {
+
+    position: absolute;
+
+    cursor: pointer;
+
+    inset: 0;
+
+    background: #cbd5e1;
+
+    border-radius: 20px;
+
+    transition: 0.3s;
+
+}
+
+
+.slider:before {
+
+    content: "";
+
+    position: absolute;
+
+    width: 18px;
+
+    height: 18px;
+
+    left: 3px;
+
+    top: 3px;
+
+    background: white;
+
+    border-radius: 50%;
+
+    transition: 0.3s;
+
+}
+
+
+.switch input:checked + .slider {
+
+    background: #163a70;
+
+}
+
+
+.switch input:checked + .slider:before {
+
+    transform: translateX(21px);
+
+}
+
+
+
+/* ================= SPEECH SPEED ================= */
+
+.speed-control {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 8px;
+
+    color: #64748b;
+
+    font-size: 11px;
+
+}
+
+
+.speed-control input {
+
+    width: 130px;
+
+}
+
+
+
+/* ================= VOICE LANGUAGE ================= */
+
+.voice-language-display {
+
+    background: #f4f7fb;
+
+    color: #163a70;
+
+    padding: 7px 10px;
+
+    border-radius: 6px;
+
+    font-size: 13px;
+
+}
+
+
+
+/* ================= INFORMATION CARDS ================= */
+
+.information-section {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 15px;
+
+    margin-top: 25px;
+
+}
+
+
+.info-card {
+
+    background: white;
+
+    border: 1px solid #e2e8f0;
+
+    border-radius: 10px;
+
+    padding: 18px;
+
+}
+
+
+.info-card h3 {
+
+    color: #163a70;
+
+    font-size: 16px;
+
+    margin-bottom: 8px;
+
+}
+
+
+.info-card p {
+
+    color: #64748b;
+
+    font-size: 13px;
+
+    line-height: 1.5;
+
+}
+
+
+
+/* ================= AUDIO INFORMATION ================= */
+
+.audio-information {
+
+    background: white;
+
+    border: 1px solid #e2e8f0;
+
+    border-radius: 10px;
+
+    padding: 25px;
+
+    margin-top: 25px;
+
+}
+
+
+.audio-information h2 {
+
+    color: #163a70;
+
+    font-size: 20px;
+
+    margin-bottom: 8px;
+
+}
+
+
+.audio-information > p {
+
+    color: #64748b;
+
+    font-size: 14px;
+
+    margin-bottom: 20px;
+
+}
+
+
+.audio-feature-grid {
+
+    display: grid;
+
+    grid-template-columns:
+        repeat(4, 1fr);
+
+    gap: 15px;
+
+}
+
+
+.audio-feature {
+
+    padding: 15px;
+
+    border: 1px solid #e2e8f0;
+
+    border-radius: 8px;
+
+    background: #f8fafc;
+
+}
+
+
+.feature-icon {
+
+    font-size: 25px;
+
+    margin-bottom: 8px;
+
+}
+
+
+.audio-feature h3 {
+
+    color: #163a70;
+
+    font-size: 15px;
+
+    margin-bottom: 6px;
+
+}
+
+
+.audio-feature p {
+
+    color: #64748b;
+
+    font-size: 12px;
+
+    line-height: 1.5;
+
+}
+
+
+
+/* ================= PROTOTYPE NOTE ================= */
+
+.prototype-note {
+
+    margin-top: 20px;
+
+    padding: 14px 16px;
+
+    background: #fffbeb;
+
+    border: 1px solid #fde68a;
+
+    border-radius: 8px;
+
+    color: #92400e;
+
+    font-size: 13px;
+
+    line-height: 1.5;
+
+}
+
+
+
+/* ================= RESPONSIVE ================= */
+
+@media (max-width: 800px) {
+
+    .header {
+
+        padding: 15px 4%;
+
+    }
+
+
+    .information-section {
+
+        grid-template-columns:
+            repeat(2, 1fr);
+
+    }
+
+
+    .audio-feature-grid {
+
+        grid-template-columns:
+            repeat(2, 1fr);
+
+    }
+
+}
+
+
+
+@media (max-width: 700px) {
+
+    .header {
+
+        flex-direction: column;
+
+        align-items: flex-start;
+
+        gap: 15px;
+
+    }
+
+
+    .language-section {
+
+        width: 100%;
+
+        justify-content: space-between;
+
+    }
+
+
+    .main-container {
+
+        width: 95%;
+
+    }
+
+
+    .welcome-section h2 {
+
+        font-size: 23px;
+
+    }
+
+
+    .message-bubble {
+
+        max-width: 88%;
+
+    }
+
+}
+
+
+
+@media (max-width: 500px) {
+
+    .input-area {
+
+        gap: 6px;
+
+    }
+
+
+    .audio-button {
+
+        width: 42px;
+
+        height: 42px;
+
+    }
+
+
+    .input-area input {
+
+        height: 42px;
+
+        font-size: 13px;
+
+    }
+
+
+    #send-button {
+
+        height: 42px;
+
+        padding: 0 12px;
+
+        font-size: 13px;
+
+    }
+
+
+    .information-section {
+
+        grid-template-columns: 1fr;
+
+    }
+
+
+    .audio-feature-grid {
+
+        grid-template-columns: 1fr;
+
+    }
+
+
+    .setting-row {
+
+        align-items: flex-start;
+
+        flex-direction: column;
+
+    }
+
+
+    .speed-control {
+
+        width: 100%;
+
+    }
+
+
+    .speed-control input {
+
+        flex: 1;
+
+    }
+
+}
