@@ -1,0 +1,276 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "sqlite"
+}
+
+// =========================
+// PARENT
+// =========================
+
+model Parent {
+  id           Int      @id @default(autoincrement())
+  name         String
+  email        String   @unique
+  phone        String?
+  passwordHash String
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+
+  students     ParentStudent[]
+  auditLogs    AuditLog[]
+}
+
+// =========================
+// STUDENT
+// =========================
+
+model Student {
+  id               Int      @id @default(autoincrement())
+  registerNumber   String   @unique
+  name             String
+  dateOfBirth      DateTime
+  email            String?
+  phone            String?
+  program          String?
+  branch           String?
+  semester         Int?
+  section          String?
+  createdAt        DateTime @default(now())
+  updatedAt        DateTime @updatedAt
+
+  parents          ParentStudent[]
+  credits          Credit[]
+  curriculum       Curriculum[]
+  attendance       Attendance[]
+  mentor           Mentor?
+  timetable        Timetable[]
+  academicCalendar AcademicCalendar[]
+  exams            Exam[]
+  marks            Mark[]
+  grades           Grade[]
+  payments         Payment[]
+  hostel           Hostel?
+}
+
+// =========================
+// PARENT ↔ STUDENT AUTHORIZATION
+// =========================
+
+model ParentStudent {
+  id        Int      @id @default(autoincrement())
+  parentId  Int
+  studentId Int
+  relation  String?
+  isActive  Boolean  @default(true)
+  createdAt DateTime @default(now())
+
+  parent    Parent  @relation(fields: [parentId], references: [id], onDelete: Cascade)
+  student   Student @relation(fields: [studentId], references: [id], onDelete: Cascade)
+
+  @@unique([parentId, studentId])
+}
+
+// =========================
+// CREDITS
+// =========================
+
+model Credit {
+  id              Int      @id @default(autoincrement())
+  studentId       Int
+  courseCode      String
+  courseName      String
+  credits         Float
+  semester        Int
+  status          String?
+
+  student         Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)
+}
+
+// =========================
+// CURRICULUM
+// =========================
+
+model Curriculum {
+  id          Int      @id @default(autoincrement())
+  studentId   Int
+  courseCode  String
+  courseName  String
+  credits     Float
+  category    String?
+  semester    Int
+
+  student     Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)
+}
+
+// =========================
+// ATTENDANCE
+// =========================
+
+model Attendance {
+  id             Int      @id @default(autoincrement())
+  studentId      Int
+  courseCode     String
+  courseName     String
+  semester       Int
+  attended       Int
+  conducted      Int
+  percentage     Float
+
+  student        Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)
+
+  @@index([studentId])
+  @@index([studentId, semester])
+}
+
+// =========================
+// MENTOR
+// =========================
+
+model Mentor {
+  id          Int      @id @default(autoincrement())
+  studentId   Int      @unique
+  name        String
+  email       String?
+  phone       String?
+  designation String?
+
+  student     Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)
+}
+
+// =========================
+// TIMETABLE
+// =========================
+
+model Timetable {
+  id          Int      @id @default(autoincrement())
+  studentId   Int
+  day         String
+  startTime   String
+  endTime     String
+  courseCode  String
+  courseName  String
+  room        String?
+  faculty     String?
+  semester    Int
+
+  student     Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)
+}
+
+// =========================
+// ACADEMIC CALENDAR
+// =========================
+
+model AcademicCalendar {
+  id          Int      @id @default(autoincrement())
+  studentId   Int
+  title       String
+  eventDate   DateTime
+  description String?
+  semester    Int?
+
+  student     Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)
+}
+
+// =========================
+// EXAMS
+// =========================
+
+model Exam {
+  id          Int      @id @default(autoincrement())
+  studentId   Int
+  courseCode  String
+  courseName  String
+  examType    String
+  examDate    DateTime
+  startTime   String?
+  room        String?
+  semester    Int
+
+  student     Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)
+}
+
+// =========================
+// MARKS
+// =========================
+
+model Mark {
+  id          Int      @id @default(autoincrement())
+  studentId   Int
+  courseCode  String
+  courseName  String
+  assessment  String
+  marks       Float
+  maxMarks    Float
+  semester    Int
+
+  student     Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)
+}
+
+// =========================
+// GRADES
+// =========================
+
+model Grade {
+  id          Int      @id @default(autoincrement())
+  studentId   Int
+  courseCode  String
+  courseName  String
+  grade       String
+  gradePoint  Float
+  semester    Int
+
+  student     Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)
+}
+
+// =========================
+// PAYMENTS
+// =========================
+
+model Payment {
+  id              Int      @id @default(autoincrement())
+  studentId       Int
+  transactionId   String   @unique
+  amount          Float
+  paymentDate     DateTime
+  paymentType     String
+  paymentMethod   String
+  status          String
+  receiptPath     String?
+
+  student         Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)
+}
+
+// =========================
+// HOSTEL
+// =========================
+
+model Hostel {
+  id          Int      @id @default(autoincrement())
+  studentId   Int      @unique
+  hostelName  String
+  block       String
+  roomNumber  String
+  floor       String?
+  bedType     String?
+
+  student     Student  @relation(fields: [studentId], references: [id], onDelete: Cascade)
+}
+
+// =========================
+// AUDIT LOG
+// =========================
+
+model AuditLog {
+  id          Int      @id @default(autoincrement())
+  parentId    Int?
+  action      String
+  endpoint    String?
+  ipAddress   String?
+  timestamp   DateTime @default(now())
+
+  parent      Parent?  @relation(fields: [parentId], references: [id], onDelete: SetNull)
+}
