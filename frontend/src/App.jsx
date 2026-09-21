@@ -16,31 +16,42 @@ const translations = {
     payments: "Payments",
     hostel: "Hostel",
     chatbot: "AI Assistant",
+
     mainMenu: "MAIN MENU",
     settings: "Settings",
     logout: "Logout",
     parent: "Parent",
+
     parentPortal: "PARENT PORTAL",
     welcome: "Welcome, Parent 👋",
-    welcomeText: "Welcome to the VIT-AP Parent Information Assistant.",
+    welcomeText:
+      "Welcome to the VIT-AP Parent Information Assistant.",
+
     smartAssistant: "SMART ASSISTANT",
     aiTitle: "VIT-AP AI Assistant",
     aiDescription:
       "Ask questions about your child's attendance, marks, timetable, examinations, grades and other authorized academic information.",
     openAI: "Open AI Assistant →",
+
     language: "Language Preference",
     vtopId: "VTOP ID",
-    password: "Password",
-    forgot: "Forgot Password?",
+    dateOfBirth: "Date of Birth",
+
     signIn: "Sign In",
     welcomeBack: "WELCOME BACK",
     loginTitle: "Parent Login",
-    loginDescription: "Sign in using your VTOP credentials to continue.",
+    loginDescription:
+      "Sign in using your VTOP credentials to continue.",
+
     secureLogin: "Secure Login",
-    secureText: "Your credentials are used only for authentication.",
+    secureText:
+      "Your details are used only for authentication.",
+
     enterVtop: "Enter your VTOP ID",
-    enterPassword: "Enter your password",
-    error: "Please enter your VTOP ID and password.",
+    enterDob: "Enter your date of birth",
+
+    error:
+      "Please enter your VTOP ID and date of birth.",
   },
 
   Telugu: {
@@ -57,31 +68,42 @@ const translations = {
     payments: "చెల్లింపులు",
     hostel: "హాస్టల్",
     chatbot: "AI అసిస్టెంట్",
+
     mainMenu: "ప్రధాన మెనూ",
     settings: "సెట్టింగ్స్",
     logout: "లాగ్ అవుట్",
     parent: "పేరెంట్",
+
     parentPortal: "పేరెంట్ పోర్టల్",
     welcome: "వెల్కమ్, పేరెంట్ 👋",
-    welcomeText: "VIT-AP పేరెంట్ ఇన్ఫర్మేషన్ అసిస్టెంట్‌కు స్వాగతం.",
+    welcomeText:
+      "VIT-AP పేరెంట్ ఇన్ఫర్మేషన్ అసిస్టెంట్‌కు స్వాగతం.",
+
     smartAssistant: "స్మార్ట్ అసిస్టెంట్",
     aiTitle: "VIT-AP AI అసిస్టెంట్",
     aiDescription:
       "మీ పిల్లల హాజరు, మార్కులు, టైమ్‌టేబుల్, పరీక్షలు, గ్రేడ్లు మరియు ఇతర అకాడమిక్ సమాచారాన్ని అడగండి.",
     openAI: "AI అసిస్టెంట్‌ను తెరవండి →",
+
     language: "భాష ఎంపిక",
     vtopId: "VTOP ID",
-    password: "పాస్‌వర్డ్",
-    forgot: "పాస్‌వర్డ్ మర్చిపోయారా?",
+    dateOfBirth: "పుట్టిన తేదీ",
+
     signIn: "సైన్ ఇన్",
     welcomeBack: "తిరిగి స్వాగతం",
     loginTitle: "పేరెంట్ లాగిన్",
-    loginDescription: "కొనసాగించడానికి మీ VTOP వివరాలతో సైన్ ఇన్ చేయండి.",
+    loginDescription:
+      "కొనసాగించడానికి మీ VTOP వివరాలతో సైన్ ఇన్ చేయండి.",
+
     secureLogin: "సురక్షిత లాగిన్",
-    secureText: "మీ వివరాలు కేవలం ధృవీకరణ కోసం మాత్రమే ఉపయోగించబడతాయి.",
+    secureText:
+      "మీ వివరాలు కేవలం ధృవీకరణ కోసం మాత్రమే ఉపయోగించబడతాయి.",
+
     enterVtop: "మీ VTOP ID నమోదు చేయండి",
-    enterPassword: "మీ పాస్‌వర్డ్ నమోదు చేయండి",
-    error: "దయచేసి VTOP ID మరియు పాస్‌వర్డ్ నమోదు చేయండి.",
+    enterDob: "మీ పుట్టిన తేదీ నమోదు చేయండి",
+
+    error:
+      "దయచేసి VTOP ID మరియు పుట్టిన తేదీ నమోదు చేయండి.",
   },
 
   Hindi: {
@@ -98,31 +120,42 @@ const translations = {
     payments: "भुगतान",
     hostel: "हॉस्टल",
     chatbot: "AI सहायक",
+
     mainMenu: "मुख्य मेनू",
     settings: "सेटिंग्स",
     logout: "लॉग आउट",
     parent: "अभिभावक",
+
     parentPortal: "अभिभावक पोर्टल",
     welcome: "स्वागत है, अभिभावक 👋",
-    welcomeText: "VIT-AP अभिभावक सूचना सहायक में आपका स्वागत है।",
+    welcomeText:
+      "VIT-AP अभिभावक सूचना सहायक में आपका स्वागत है।",
+
     smartAssistant: "स्मार्ट सहायक",
     aiTitle: "VIT-AP AI सहायक",
     aiDescription:
       "अपने बच्चे की उपस्थिति, अंक, समय सारणी, परीक्षाओं, ग्रेड और अन्य शैक्षणिक जानकारी के बारे में पूछें।",
     openAI: "AI सहायक खोलें →",
+
     language: "भाषा पसंद",
     vtopId: "VTOP ID",
-    password: "पासवर्ड",
-    forgot: "पासवर्ड भूल गए?",
+    dateOfBirth: "जन्म तिथि",
+
     signIn: "साइन इन",
     welcomeBack: "वापसी पर स्वागत है",
     loginTitle: "अभिभावक लॉगिन",
-    loginDescription: "जारी रखने के लिए अपने VTOP विवरण से साइन इन करें।",
+    loginDescription:
+      "जारी रखने के लिए अपने VTOP विवरण से साइन इन करें।",
+
     secureLogin: "सुरक्षित लॉगिन",
-    secureText: "आपकी जानकारी केवल प्रमाणीकरण के लिए उपयोग की जाती है।",
+    secureText:
+      "आपकी जानकारी केवल प्रमाणीकरण के लिए उपयोग की जाती है।",
+
     enterVtop: "अपना VTOP ID दर्ज करें",
-    enterPassword: "अपना पासवर्ड दर्ज करें",
-    error: "कृपया VTOP ID और पासवर्ड दर्ज करें।",
+    enterDob: "अपनी जन्म तिथि दर्ज करें",
+
+    error:
+      "कृपया VTOP ID और जन्म तिथि दर्ज करें।",
   },
 };
 
@@ -176,17 +209,20 @@ function App() {
    LOGIN PAGE
 ===================================================== */
 
-function LoginPage({ language, setLanguage, t, onLogin }) {
-  const [showPassword, setShowPassword] = useState(false);
-  const [showForgot, setShowForgot] = useState(false);
+function LoginPage({
+  language,
+  setLanguage,
+  t,
+  onLogin,
+}) {
   const [vtopId, setVtopId] = useState("");
-  const [password, setPassword] = useState("");
+  const [dateOfBirth, setDateOfBirth] = useState("");
   const [error, setError] = useState("");
 
   const handleLogin = (e) => {
     e.preventDefault();
 
-    if (!vtopId || !password) {
+    if (!vtopId || !dateOfBirth) {
       setError(t.error);
       return;
     }
@@ -197,89 +233,135 @@ function LoginPage({ language, setLanguage, t, onLogin }) {
 
   return (
     <div className="login-page">
+
       <div className="login-card">
 
+        {/* LOGO */}
+
         <div className="login-brand">
-          <div className="vit-logo">V</div>
+
+          <div className="vit-logo">
+            V
+          </div>
 
           <div>
             <h2>VIT-AP</h2>
             <p>Parent Connect</p>
           </div>
+
         </div>
+
+        {/* TITLE */}
 
         <div className="login-title">
-          <span className="welcome-text">{t.welcomeBack}</span>
 
-          <h1>{t.loginTitle}</h1>
+          <span className="welcome-text">
+            {t.welcomeBack}
+          </span>
 
-          <p>{t.loginDescription}</p>
+          <h1>
+            {t.loginTitle}
+          </h1>
+
+          <p>
+            {t.loginDescription}
+          </p>
+
         </div>
+
+        {/* FORM */}
 
         <form onSubmit={handleLogin}>
 
+          {/* VTOP ID */}
+
           <div className="input-group">
-            <label>{t.vtopId}</label>
+
+            <label>
+              {t.vtopId}
+            </label>
 
             <div className="input-wrapper">
-              <span className="input-icon">♙</span>
+
+              <span className="input-icon">
+                ♙
+              </span>
 
               <input
                 type="text"
                 placeholder={t.enterVtop}
                 value={vtopId}
-                onChange={(e) => setVtopId(e.target.value)}
+                onChange={(e) => {
+                  setVtopId(e.target.value);
+                  setError("");
+                }}
               />
+
             </div>
+
           </div>
+
+          {/* DATE OF BIRTH */}
 
           <div className="input-group">
 
-            <div className="password-label">
-              <label>{t.password}</label>
-
-              <button
-                type="button"
-                className="forgot-button"
-                onClick={() => setShowForgot(true)}
-              >
-                {t.forgot}
-              </button>
-            </div>
+            <label>
+              {t.dateOfBirth}
+            </label>
 
             <div className="input-wrapper">
-              <span className="input-icon">●</span>
+
+              <span className="input-icon">
+                📅
+              </span>
 
               <input
-                type={showPassword ? "text" : "password"}
-                placeholder={t.enterPassword}
-                value={password}
-                onChange={(e) => setPassword(e.target.value)}
+                type="date"
+                value={dateOfBirth}
+                onChange={(e) => {
+                  setDateOfBirth(e.target.value);
+                  setError("");
+                }}
               />
 
-              <button
-                type="button"
-                className="eye-button"
-                onClick={() => setShowPassword(!showPassword)}
-              >
-                {showPassword ? "◉" : "◌"}
-              </button>
             </div>
+
           </div>
 
+          {/* LANGUAGE */}
+
           <div className="input-group">
-            <label>{t.language}</label>
+
+            <label>
+              {t.language}
+            </label>
 
             <select
               className="language-select"
               value={language}
-              onChange={(e) => setLanguage(e.target.value)}
+              onChange={(e) => {
+                setLanguage(e.target.value);
+                setError("");
+              }}
             >
-              <option value="English">English</option>
-              <option value="Telugu">తెలుగు</option>
-              <option value="Hindi">हिंदी</option>
+
+              <option value="English">
+                English
+              </option>
+
+              <option value="Telugu">
+                తెలుగు
+              </option>
+
+              <option value="Hindi">
+                हिंदी
+              </option>
+
             </select>
+
           </div>
+
+          {/* ERROR */}
 
           {error && (
             <div className="login-error">
@@ -287,56 +369,46 @@ function LoginPage({ language, setLanguage, t, onLogin }) {
             </div>
           )}
 
-          <button type="submit" className="login-button">
+          {/* LOGIN BUTTON */}
+
+          <button
+            type="submit"
+            className="login-button"
+          >
             {t.signIn}
             <span>→</span>
           </button>
+
         </form>
 
+        {/* SECURITY */}
+
         <div className="security-note">
-          <span>🔒</span>
+
+          <span>
+            🔒
+          </span>
 
           <div>
-            <strong>{t.secureLogin}</strong>
 
-            <p>{t.secureText}</p>
+            <strong>
+              {t.secureLogin}
+            </strong>
+
+            <p>
+              {t.secureText}
+            </p>
+
           </div>
+
         </div>
 
         <p className="login-bottom">
           VIT-AP Parent Information Assistant
         </p>
+
       </div>
 
-      {showForgot && (
-        <div className="modal-overlay">
-          <div className="forgot-modal">
-
-            <button
-              className="modal-close"
-              onClick={() => setShowForgot(false)}
-            >
-              ×
-            </button>
-
-            <div className="modal-icon">?</div>
-
-            <h2>{t.forgot}</h2>
-
-            <p>
-              For VTOP password recovery, please use
-              the official VTOP password recovery process.
-            </p>
-
-            <button
-              className="modal-action"
-              onClick={() => setShowForgot(false)}
-            >
-              Okay
-            </button>
-          </div>
-        </div>
-      )}
     </div>
   );
 }
@@ -353,6 +425,7 @@ function Dashboard({
   setActivePage,
   onLogout,
 }) {
+
   const currentItem = menuItems.find(
     (item) => item.id === activePage
   );
@@ -360,15 +433,21 @@ function Dashboard({
   return (
     <div className="dashboard-layout">
 
+      {/* SIDEBAR */}
+
       <aside className="sidebar">
 
         <div className="sidebar-brand">
-          <div className="brand-logo-small">V</div>
+
+          <div className="brand-logo-small">
+            V
+          </div>
 
           <div>
             <h2>VIT-AP</h2>
             <span>Parent Connect</span>
           </div>
+
         </div>
 
         <div className="sidebar-section-title">
@@ -378,6 +457,7 @@ function Dashboard({
         <nav className="sidebar-menu">
 
           {menuItems.map((item) => (
+
             <button
               key={item.id}
               className={
@@ -385,14 +465,21 @@ function Dashboard({
                   ? "sidebar-item active"
                   : "sidebar-item"
               }
-              onClick={() => setActivePage(item.id)}
+              onClick={() =>
+                setActivePage(item.id)
+              }
             >
+
               <span className="sidebar-icon">
                 {item.icon}
               </span>
 
-              <span>{t[item.id]}</span>
+              <span>
+                {t[item.id]}
+              </span>
+
             </button>
+
           ))}
 
         </nav>
@@ -400,31 +487,49 @@ function Dashboard({
         <div className="sidebar-bottom">
 
           <button className="sidebar-item">
-            <span className="sidebar-icon">⚙</span>
+
+            <span className="sidebar-icon">
+              ⚙
+            </span>
+
             {t.settings}
+
           </button>
 
           <button
             className="sidebar-item logout-item"
             onClick={onLogout}
           >
-            <span className="sidebar-icon">↪</span>
+
+            <span className="sidebar-icon">
+              ↪
+            </span>
+
             {t.logout}
+
           </button>
 
         </div>
+
       </aside>
+
+      {/* MAIN */}
 
       <main className="main-content">
 
         <header className="topbar">
 
           <div>
+
             <p className="breadcrumb">
-              {t.parentPortal} / {t[currentItem?.id]}
+              {t.parentPortal} /{" "}
+              {t[currentItem?.id]}
             </p>
 
-            <h1>{t[currentItem?.id]}</h1>
+            <h1>
+              {t[currentItem?.id]}
+            </h1>
+
           </div>
 
           <div className="topbar-right">
@@ -432,11 +537,23 @@ function Dashboard({
             <select
               className="dashboard-language"
               value={language}
-              onChange={(e) => setLanguage(e.target.value)}
+              onChange={(e) =>
+                setLanguage(e.target.value)
+              }
             >
-              <option value="English">English</option>
-              <option value="Telugu">తెలుగు</option>
-              <option value="Hindi">हिंदी</option>
+
+              <option value="English">
+                English
+              </option>
+
+              <option value="Telugu">
+                తెలుగు
+              </option>
+
+              <option value="Hindi">
+                हिंदी
+              </option>
+
             </select>
 
             <button className="notification-button">
@@ -450,12 +567,21 @@ function Dashboard({
               </div>
 
               <div>
-                <strong>{t.parent}</strong>
-                <small>VIT-AP</small>
+
+                <strong>
+                  {t.parent}
+                </strong>
+
+                <small>
+                  VIT-AP
+                </small>
+
               </div>
 
             </div>
+
           </div>
+
         </header>
 
         <div className="page-container">
@@ -467,20 +593,58 @@ function Dashboard({
             />
           )}
 
-          {activePage === "profile" && <ProfilePage t={t} />}
-          {activePage === "academics" && <AcademicsPage t={t} />}
-          {activePage === "attendance" && <AttendancePage t={t} />}
-          {activePage === "mentor" && <MentorPage t={t} />}
-          {activePage === "timetable" && <TimetablePage t={t} />}
-          {activePage === "calendar" && <CalendarPage t={t} />}
-          {activePage === "exams" && <ExamPage t={t} />}
-          {activePage === "marks" && <MarksPage t={t} />}
-          {activePage === "grades" && <GradesPage t={t} />}
-          {activePage === "payments" && <PaymentsPage t={t} />}
-          {activePage === "hostel" && <HostelPage t={t} />}
-          {activePage === "chatbot" && <ChatbotPage t={t} />}
+          {activePage === "profile" && (
+            <ProfilePage t={t} />
+          )}
+
+          {activePage === "academics" && (
+            <AcademicsPage t={t} />
+          )}
+
+          {activePage === "attendance" && (
+            <AttendancePage t={t} />
+          )}
+
+          {activePage === "mentor" && (
+            <MentorPage t={t} />
+          )}
+
+          {activePage === "timetable" && (
+            <TimetablePage t={t} />
+          )}
+
+          {activePage === "calendar" && (
+            <CalendarPage t={t} />
+          )}
+
+          {activePage === "exams" && (
+            <ExamPage t={t} />
+          )}
+
+          {activePage === "marks" && (
+            <MarksPage t={t} />
+          )}
+
+          {activePage === "grades" && (
+            <GradesPage t={t} />
+          )}
+
+          {activePage === "payments" && (
+            <PaymentsPage t={t} />
+          )}
+
+          {activePage === "hostel" && (
+            <HostelPage t={t} />
+          )}
+
+          {activePage === "chatbot" && (
+            <ChatbotPage t={t} />
+          )}
+
         </div>
+
       </main>
+
     </div>
   );
 }
@@ -489,25 +653,36 @@ function Dashboard({
    DASHBOARD HOME
 ===================================================== */
 
-function DashboardHome({ setActivePage, t }) {
+function DashboardHome({
+  setActivePage,
+  t,
+}) {
+
   return (
     <div className="dashboard-home">
 
       <div className="welcome-card">
 
         <div>
+
           <span className="section-label">
             {t.parentPortal}
           </span>
 
-          <h2>{t.welcome}</h2>
+          <h2>
+            {t.welcome}
+          </h2>
 
-          <p>{t.welcomeText}</p>
+          <p>
+            {t.welcomeText}
+          </p>
+
         </div>
 
         <div className="welcome-card-icon">
           ✦
         </div>
+
       </div>
 
       <div className="assistant-card-large">
@@ -520,16 +695,23 @@ function DashboardHome({ setActivePage, t }) {
           {t.smartAssistant}
         </span>
 
-        <h2>{t.aiTitle}</h2>
+        <h2>
+          {t.aiTitle}
+        </h2>
 
-        <p>{t.aiDescription}</p>
+        <p>
+          {t.aiDescription}
+        </p>
 
         <button
           className="assistant-button"
-          onClick={() => setActivePage("chatbot")}
+          onClick={() =>
+            setActivePage("chatbot")
+          }
         >
           {t.openAI}
         </button>
+
       </div>
 
     </div>
@@ -546,6 +728,7 @@ function InformationPage({
   description,
   children,
 }) {
+
   return (
     <div>
 
@@ -561,16 +744,22 @@ function InformationPage({
             VIT-AP PARENT PORTAL
           </span>
 
-          <h2>{title}</h2>
+          <h2>
+            {title}
+          </h2>
 
-          <p>{description}</p>
+          <p>
+            {description}
+          </p>
 
         </div>
+
       </div>
 
       <div className="content-card information-content">
         {children}
       </div>
+
     </div>
   );
 }
@@ -580,12 +769,14 @@ function InformationPage({
 ===================================================== */
 
 function ProfilePage() {
+
   return (
     <InformationPage
       icon="♙"
       title="Student Profile"
       description="View your child's authorized student information."
     >
+
       <div className="profile-header">
 
         <div className="large-avatar">
@@ -593,9 +784,17 @@ function ProfilePage() {
         </div>
 
         <div>
-          <h2>Student Name</h2>
-          <p>VIT-AP Student</p>
+
+          <h2>
+            Student Name
+          </h2>
+
+          <p>
+            VIT-AP Student
+          </p>
+
         </div>
+
       </div>
 
       <InfoGrid
@@ -608,6 +807,7 @@ function ProfilePage() {
           ["Campus", "VIT-AP Amaravati"],
         ]}
       />
+
     </InformationPage>
   );
 }
@@ -617,17 +817,30 @@ function ProfilePage() {
 ===================================================== */
 
 function AcademicsPage() {
+
   return (
     <InformationPage
       icon="▣"
       title="Academics"
       description="View curriculum, credits and academic progress."
     >
+
       <div className="three-cards">
 
-        <MiniInfo title="Credits Earned" value="--" />
-        <MiniInfo title="Credits Required" value="--" />
-        <MiniInfo title="Current Semester" value="--" />
+        <MiniInfo
+          title="Credits Earned"
+          value="--"
+        />
+
+        <MiniInfo
+          title="Credits Required"
+          value="--"
+        />
+
+        <MiniInfo
+          title="Current Semester"
+          value="--"
+        />
 
       </div>
 
@@ -641,6 +854,7 @@ function AcademicsPage() {
         rows={[]}
         empty="Academic course information will appear here."
       />
+
     </InformationPage>
   );
 }
@@ -650,17 +864,30 @@ function AcademicsPage() {
 ===================================================== */
 
 function AttendancePage() {
+
   return (
     <InformationPage
       icon="◷"
       title="Attendance"
       description="View subject-wise and semester-wise attendance."
     >
+
       <div className="three-cards">
 
-        <MiniInfo title="Overall Attendance" value="--" />
-        <MiniInfo title="Current Semester" value="--" />
-        <MiniInfo title="Subjects" value="--" />
+        <MiniInfo
+          title="Overall Attendance"
+          value="--"
+        />
+
+        <MiniInfo
+          title="Current Semester"
+          value="--"
+        />
+
+        <MiniInfo
+          title="Subjects"
+          value="--"
+        />
 
       </div>
 
@@ -675,6 +902,7 @@ function AttendancePage() {
         rows={[]}
         empty="Attendance information will appear here."
       />
+
     </InformationPage>
   );
 }
@@ -684,12 +912,14 @@ function AttendancePage() {
 ===================================================== */
 
 function MentorPage() {
+
   return (
     <InformationPage
       icon="♙"
       title="Mentor Details"
       description="View your child's assigned mentor information."
     >
+
       <div className="mentor-box">
 
         <div className="large-avatar">
@@ -702,14 +932,18 @@ function MentorPage() {
             MENTOR
           </span>
 
-          <h2>Mentor information</h2>
+          <h2>
+            Mentor information
+          </h2>
 
           <p>
             Details will be displayed after backend integration.
           </p>
 
         </div>
+
       </div>
+
     </InformationPage>
   );
 }
@@ -719,12 +953,14 @@ function MentorPage() {
 ===================================================== */
 
 function TimetablePage() {
+
   return (
     <InformationPage
       icon="▦"
       title="Timetable"
       description="View your child's class schedule."
     >
+
       <Table
         headers={[
           "Day",
@@ -736,6 +972,7 @@ function TimetablePage() {
         rows={[]}
         empty="Timetable information will appear here."
       />
+
     </InformationPage>
   );
 }
@@ -745,12 +982,14 @@ function TimetablePage() {
 ===================================================== */
 
 function CalendarPage() {
+
   return (
     <InformationPage
       icon="◫"
       title="Academic Calendar"
       description="View important academic dates and events."
     >
+
       <Table
         headers={[
           "Date",
@@ -760,6 +999,7 @@ function CalendarPage() {
         rows={[]}
         empty="Academic calendar information will appear here."
       />
+
     </InformationPage>
   );
 }
@@ -769,12 +1009,14 @@ function CalendarPage() {
 ===================================================== */
 
 function ExamPage() {
+
   return (
     <InformationPage
       icon="✎"
       title="Exam Schedule"
       description="View upcoming examinations and schedules."
     >
+
       <Table
         headers={[
           "Exam",
@@ -786,6 +1028,7 @@ function ExamPage() {
         rows={[]}
         empty="Exam schedule information will appear here."
       />
+
     </InformationPage>
   );
 }
@@ -795,17 +1038,30 @@ function ExamPage() {
 ===================================================== */
 
 function MarksPage() {
+
   return (
     <InformationPage
       icon="▤"
       title="Marks"
       description="View authorized academic marks."
     >
+
       <div className="three-cards marks-summary">
 
-        <MiniInfo title="CAT 1" value="--" />
-        <MiniInfo title="CAT 2" value="--" />
-        <MiniInfo title="FAT" value="--" />
+        <MiniInfo
+          title="CAT 1"
+          value="--"
+        />
+
+        <MiniInfo
+          title="CAT 2"
+          value="--"
+        />
+
+        <MiniInfo
+          title="FAT"
+          value="--"
+        />
 
       </div>
 
@@ -820,6 +1076,7 @@ function MarksPage() {
         rows={[]}
         empty="Marks information will appear here."
       />
+
     </InformationPage>
   );
 }
@@ -829,17 +1086,30 @@ function MarksPage() {
 ===================================================== */
 
 function GradesPage() {
+
   return (
     <InformationPage
       icon="★"
       title="Grade History"
       description="View semester-wise grade information."
     >
+
       <div className="three-cards">
 
-        <MiniInfo title="CGPA" value="--" />
-        <MiniInfo title="Latest Semester" value="--" />
-        <MiniInfo title="Completed Semesters" value="--" />
+        <MiniInfo
+          title="CGPA"
+          value="--"
+        />
+
+        <MiniInfo
+          title="Latest Semester"
+          value="--"
+        />
+
+        <MiniInfo
+          title="Completed Semesters"
+          value="--"
+        />
 
       </div>
 
@@ -853,6 +1123,7 @@ function GradesPage() {
         rows={[]}
         empty="Grade history will appear here."
       />
+
     </InformationPage>
   );
 }
@@ -862,17 +1133,30 @@ function GradesPage() {
 ===================================================== */
 
 function PaymentsPage() {
+
   return (
     <InformationPage
       icon="₹"
       title="Payments"
       description="View authorized payment and fee information."
     >
+
       <div className="three-cards">
 
-        <MiniInfo title="Total Paid" value="--" />
-        <MiniInfo title="Pending" value="--" />
-        <MiniInfo title="Latest Payment" value="--" />
+        <MiniInfo
+          title="Total Paid"
+          value="--"
+        />
+
+        <MiniInfo
+          title="Pending"
+          value="--"
+        />
+
+        <MiniInfo
+          title="Latest Payment"
+          value="--"
+        />
 
       </div>
 
@@ -886,6 +1170,7 @@ function PaymentsPage() {
         rows={[]}
         empty="Payment information will appear here."
       />
+
     </InformationPage>
   );
 }
@@ -895,12 +1180,14 @@ function PaymentsPage() {
 ===================================================== */
 
 function HostelPage() {
+
   return (
     <InformationPage
       icon="⌂"
       title="Hostel Information"
       description="View authorized hostel information."
     >
+
       <InfoGrid
         items={[
           ["Hostel", "Not available"],
@@ -911,6 +1198,7 @@ function HostelPage() {
           ["Status", "Not available"],
         ]}
       />
+
     </InformationPage>
   );
 }
@@ -920,6 +1208,7 @@ function HostelPage() {
 ===================================================== */
 
 function ChatbotPage({ t }) {
+
   const [message, setMessage] = useState("");
 
   const suggestions = [
@@ -944,11 +1233,16 @@ function ChatbotPage({ t }) {
             ● Online
           </span>
 
-          <h2>{t.aiTitle}</h2>
+          <h2>
+            {t.aiTitle}
+          </h2>
 
-          <p>{t.aiDescription}</p>
+          <p>
+            {t.aiDescription}
+          </p>
 
         </div>
+
       </div>
 
       <div className="chat-area">
@@ -961,27 +1255,35 @@ function ChatbotPage({ t }) {
 
           <div className="message-bubble">
 
-            <strong>Hello! 👋</strong>
+            <strong>
+              Hello! 👋
+            </strong>
 
             <p>
               {t.aiDescription}
             </p>
 
           </div>
+
         </div>
 
         <div className="suggestion-row">
 
           {suggestions.map((item) => (
+
             <button
               key={item}
-              onClick={() => setMessage(item)}
+              onClick={() =>
+                setMessage(item)
+              }
             >
               {item}
             </button>
+
           ))}
 
         </div>
+
       </div>
 
       <div className="chat-input-area">
@@ -990,12 +1292,16 @@ function ChatbotPage({ t }) {
           type="text"
           placeholder="Ask about your child's information..."
           value={message}
-          onChange={(e) => setMessage(e.target.value)}
+          onChange={(e) =>
+            setMessage(e.target.value)
+          }
           onKeyDown={(e) => {
+
             if (e.key === "Enter") {
               e.preventDefault();
               setMessage("");
             }
+
           }}
         />
 
@@ -1007,6 +1313,7 @@ function ChatbotPage({ t }) {
         </button>
 
       </div>
+
     </div>
   );
 }
@@ -1015,84 +1322,129 @@ function ChatbotPage({ t }) {
    SMALL COMPONENTS
 ===================================================== */
 
-function MiniInfo({ title, value }) {
+function MiniInfo({
+  title,
+  value,
+}) {
+
   return (
     <div className="mini-info">
 
-      <span>{title}</span>
+      <span>
+        {title}
+      </span>
 
-      <strong>{value}</strong>
+      <strong>
+        {value}
+      </strong>
 
     </div>
   );
 }
 
 function InfoGrid({ items }) {
+
   return (
     <div className="info-grid">
 
       {items.map(([label, value]) => (
-        <div className="info-item" key={label}>
 
-          <span>{label}</span>
+        <div
+          className="info-item"
+          key={label}
+        >
 
-          <strong>{value}</strong>
+          <span>
+            {label}
+          </span>
+
+          <strong>
+            {value}
+          </strong>
 
         </div>
+
       ))}
 
     </div>
   );
 }
 
-function Table({ headers, rows, empty }) {
+function Table({
+  headers,
+  rows,
+  empty,
+}) {
+
   return (
     <div className="table-wrapper">
 
       <table>
 
         <thead>
+
           <tr>
+
             {headers.map((header) => (
-              <th key={header}>{header}</th>
+
+              <th key={header}>
+                {header}
+              </th>
+
             ))}
+
           </tr>
+
         </thead>
 
         <tbody>
 
           {rows.length === 0 ? (
+
             <tr>
 
               <td colSpan={headers.length}>
 
                 <div className="empty-table">
 
-                  <span>◌</span>
+                  <span>
+                    ◌
+                  </span>
 
-                  <p>{empty}</p>
+                  <p>
+                    {empty}
+                  </p>
 
                 </div>
 
               </td>
 
             </tr>
+
           ) : (
+
             rows.map((row, index) => (
+
               <tr key={index}>
 
                 {row.map((cell, cellIndex) => (
+
                   <td key={cellIndex}>
                     {cell}
                   </td>
+
                 ))}
 
               </tr>
+
             ))
+
           )}
 
         </tbody>
+
       </table>
+
     </div>
   );
 }
