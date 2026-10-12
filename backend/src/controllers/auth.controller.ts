@@ -1,10 +1,9 @@
 import { Request, Response } from "express";
-import bcrypt from "bcryptjs";
 import jwt from "jsonwebtoken";
 import { prisma } from "../services/prisma.service";
 
-const JWT_SECRET = process.env.JWT_SECRET || "vitap-parent-chatbot-secret";
-
+const jwtSecret =
+  process.env.JWT_SECRET || "vitap-parent-chatbot-secret";
 // =====================================================
 // PARENT REGISTRATION
 // =====================================================
@@ -13,19 +12,19 @@ export const registerParent = async (
   res: Response
 ) => {
   try {
-    const { name, email, phone, password } = req.body;
+    const { name, vtopId, dateOfBirth, phone } = req.body;
 
     // -----------------------------
     // Input validation
     // -----------------------------
     if (
       typeof name !== "string" ||
-      typeof email !== "string" ||
-      typeof password !== "string"
+      typeof vtopId !== "string" ||
+      typeof dateOfBirth !== "string"
     ) {
       return res.status(400).json({
         success: false,
-        message: "Name, email and password are required",
+        message: "Name, VTOP ID and date of birth are required",
       });
     }
 
@@ -36,17 +35,19 @@ export const registerParent = async (
       });
     }
 
-    if (!email.includes("@")) {
+    if (vtopId.trim().length === 0) {
       return res.status(400).json({
         success: false,
-        message: "Please provide a valid email address",
+        message: "VTOP ID is required",
       });
     }
 
-    if (password.length < 8) {
+    const dob = new Date(dateOfBirth);
+
+    if (isNaN(dob.getTime())) {
       return res.status(400).json({
         success: false,
-        message: "Password must contain at least 8 characters",
+        message: "Invalid date of birth",
       });
     }
 
@@ -55,21 +56,16 @@ export const registerParent = async (
     // -----------------------------
     const existingParent = await prisma.parent.findUnique({
       where: {
-        email: email.toLowerCase().trim(),
+        vtopId: vtopId.trim().toUpperCase(),
       },
     });
 
     if (existingParent) {
       return res.status(409).json({
         success: false,
-        message: "Parent with this email already exists",
+        message: "Parent with this VTOP ID already exists",
       });
     }
-
-    // -----------------------------
-    // Hash password
-    // -----------------------------
-    const passwordHash = await bcrypt.hash(password, 10);
 
     // -----------------------------
     // Create parent
@@ -77,9 +73,9 @@ export const registerParent = async (
     const parent = await prisma.parent.create({
       data: {
         name: name.trim(),
-        email: email.toLowerCase().trim(),
+        vtopId: vtopId.trim(),
+        dateOfBirth: dob,
         phone: phone ? String(phone).trim() : null,
-        passwordHash,
       },
     });
 
@@ -89,7 +85,8 @@ export const registerParent = async (
       parent: {
         id: parent.id,
         name: parent.name,
-        email: parent.email,
+        vtopId: parent.vtopId,
+        dateOfBirth: parent.dateOfBirth,
         phone: parent.phone,
       },
     });
@@ -111,79 +108,86 @@ export const loginParent = async (
   res: Response
 ) => {
   try {
-    const { email, password } = req.body;
+    const { vtopId, dateOfBirth } = req.body;
 
     // -----------------------------
     // Input validation
     // -----------------------------
     if (
-      typeof email !== "string" ||
-      typeof password !== "string"
+      typeof vtopId !== "string" ||
+      typeof dateOfBirth !== "string"
     ) {
       return res.status(400).json({
         success: false,
-        message: "Email and password are required",
+        message: "VTOP ID and date of birth are required",
       });
     }
 
-    if (!email.includes("@")) {
+    if (vtopId.trim().length === 0) {
       return res.status(400).json({
         success: false,
-        message: "Please provide a valid email address",
+        message: "VTOP ID is required",
       });
     }
 
-    if (password.length === 0) {
+    const dob = new Date(dateOfBirth);
+
+    if (isNaN(dob.getTime())) {
       return res.status(400).json({
         success: false,
-        message: "Password is required",
+        message: "Invalid date of birth",
       });
     }
 
     // -----------------------------
-    // Find parent
+    // Find parent using VTOP ID
     // -----------------------------
     const parent = await prisma.parent.findUnique({
       where: {
-        email: email.toLowerCase().trim(),
+        vtopId: vtopId.trim(),
       },
     });
 
     if (!parent) {
       return res.status(401).json({
         success: false,
-        message: "Invalid email or password",
+        message: "Invalid VTOP ID or date of birth",
       });
     }
 
     // -----------------------------
-    // Compare password
+    // Verify date of birth
     // -----------------------------
-    const passwordMatch = await bcrypt.compare(
-      password,
-      parent.passwordHash
-    );
+    const storedDob = parent.dateOfBirth;
 
-    if (!passwordMatch) {
+    const dobMatches =
+      storedDob.getFullYear() === dob.getFullYear() &&
+      storedDob.getMonth() === dob.getMonth() &&
+      storedDob.getDate() === dob.getDate();
+
+    if (!dobMatches) {
       return res.status(401).json({
         success: false,
-        message: "Invalid email or password",
+        message: "Invalid VTOP ID or date of birth",
       });
     }
 
     // -----------------------------
     // Create JWT token
     // -----------------------------
-    const token = jwt.sign(
-      {
-        parentId: parent.id,
-        email: parent.email,
-      },
-      JWT_SECRET,
-      {
-        expiresIn: "2h",
-      }
-    );
+    const jwtSecret =
+  process.env.JWT_SECRET || "vitap-parent-chatbot-secret";
+
+  const token = jwt.sign(
+    {
+      parentId: parent.id,
+      vtopId: parent.vtopId,
+    },
+    jwtSecret,
+    {
+      expiresIn: "2h",
+    }
+  );
 
     // -----------------------------
     // Login response
@@ -196,7 +200,8 @@ export const loginParent = async (
       parent: {
         id: parent.id,
         name: parent.name,
-        email: parent.email,
+        vtopId: parent.vtopId,
+        dateOfBirth: parent.dateOfBirth,
         phone: parent.phone,
       },
     });

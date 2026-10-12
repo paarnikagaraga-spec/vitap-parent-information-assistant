@@ -36,9 +36,9 @@ async function main() {
 const parent = await prisma.parent.create({
   data: {
     name: "Test Parent",
-    email: "testparent@example.com",
+    vtopId: "24MIC7233",
+    dateOfBirth: new Date("2006-08-26"),
     phone: "9000000001",
-    passwordHash,
   },
 });
 

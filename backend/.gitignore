@@ -17,3 +17,15 @@ dist/
 .claude/
 .windsurf/
 skills-lock.json
+
+
+# Environment variables and secrets
+.env
+.env.*
+!.env.example
+
+# Dependencies
+node_modules/
+
+# Build output
+dist/

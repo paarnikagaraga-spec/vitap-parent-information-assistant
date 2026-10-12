@@ -22,14 +22,8 @@ export const authenticateParent = (
 
     const token = authHeader.split(" ")[1];
 
-    const jwtSecret = process.env.JWT_SECRET;
-
-    if (!jwtSecret) {
-      return res.status(500).json({
-        success: false,
-        message: "JWT secret is not configured",
-      });
-    }
+    const jwtSecret =
+      process.env.JWT_SECRET || "vitap-parent-chatbot-secret";
 
     const decoded = jwt.verify(token, jwtSecret) as {
       parentId: number;

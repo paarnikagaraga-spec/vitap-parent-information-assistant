@@ -6,6 +6,7 @@ import cors from "cors";
 import dotenv from "dotenv";
 import rateLimit from "express-rate-limit";
 import { auditLogger } from "./middleware/audit.middleware";
+import chatbotRoutes from "./routes/chatbot.routes";
 
 dotenv.config();
 
@@ -37,6 +38,7 @@ app.get("/api/health", (_req, res) => {
 
 app.use("/api/student", studentRoutes);
 app.use("/api/auth", authRoutes);
+app.use("/api/chat", chatbotRoutes);
 
 const PORT = process.env.PORT || 5000;
 

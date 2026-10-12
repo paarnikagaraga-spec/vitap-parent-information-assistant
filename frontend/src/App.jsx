@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import "./App.css";
 
 const translations = {
@@ -200,7 +200,14 @@ function App() {
       t={t}
       activePage={activePage}
       setActivePage={setActivePage}
-      onLogout={() => setLoggedIn(false)}
+      onLogout={() => {
+        localStorage.removeItem("token");
+        localStorage.removeItem("parent");
+        setLoggedIn(false);
+        setActivePage("dashboard");
+      }
+      }
+
     />
   );
 }
@@ -219,17 +226,54 @@ function LoginPage({
   const [dateOfBirth, setDateOfBirth] = useState("");
   const [error, setError] = useState("");
 
-  const handleLogin = (e) => {
-    e.preventDefault();
+  const handleLogin = async (e) => {
+  e.preventDefault();
 
-    if (!vtopId || !dateOfBirth) {
-      setError(t.error);
+  if (!vtopId || !dateOfBirth) {
+    setError(t.error);
+    return;
+  }
+
+  try {
+    setError("");
+
+    const response = await fetch(
+      "http://localhost:5000/api/auth/login",
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          vtopId: vtopId.trim(),
+          dateOfBirth: dateOfBirth,
+        }),
+      }
+    );
+
+    const data = await response.json();
+
+    if (!response.ok) {
+      setError(data.message || "Login failed.");
       return;
     }
 
-    setError("");
+    // Save JWT token
+    localStorage.setItem("token", data.token);
+
+    // Save parent information
+    localStorage.setItem(
+      "parent",
+      JSON.stringify(data.parent)
+    );
+
+    // Open dashboard
     onLogin();
-  };
+  } catch (error) {
+    console.error("Login error:", error);
+    setError("Unable to connect to backend server.");
+  }
+};
 
   return (
     <div className="login-page">
@@ -769,6 +813,71 @@ function InformationPage({
 ===================================================== */
 
 function ProfilePage() {
+  const [profile, setProfile] = useState(null);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    const fetchProfile = async () => {
+      try {
+        const token = localStorage.getItem("token");
+
+        if (!token) {
+          setError("Authentication token not found.");
+          return;
+        }
+
+        const response = await fetch(
+          "http://localhost:5000/api/student/profile",
+          {
+            method: "GET",
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          setError(data.message || "Failed to load profile.");
+          return;
+        }
+
+        setProfile(data.data);
+      } catch (error) {
+        console.error("Profile API error:", error);
+        setError("Unable to connect to backend.");
+      }
+    };
+
+    fetchProfile();
+  }, []);
+
+  if (error) {
+    return (
+      <InformationPage
+        icon="♙"
+        title="Student Profile"
+        description="View your child's authorized student information."
+      >
+        <div className="login-error">
+          ⚠ {error}
+        </div>
+      </InformationPage>
+    );
+  }
+
+  if (!profile) {
+    return (
+      <InformationPage
+        icon="♙"
+        title="Student Profile"
+        description="View your child's authorized student information."
+      >
+        <p>Loading student profile...</p>
+      </InformationPage>
+    );
+  }
 
   return (
     <InformationPage
@@ -776,38 +885,27 @@ function ProfilePage() {
       title="Student Profile"
       description="View your child's authorized student information."
     >
-
       <div className="profile-header">
-
         <div className="large-avatar">
-          S
+          {profile.name?.charAt(0)}
         </div>
 
         <div>
-
-          <h2>
-            Student Name
-          </h2>
-
-          <p>
-            VIT-AP Student
-          </p>
-
+          <h2>{profile.name}</h2>
+          <p>VIT-AP Student</p>
         </div>
-
       </div>
 
       <InfoGrid
         items={[
-          ["Student ID", "Not available"],
-          ["Program", "Not available"],
-          ["School", "Not available"],
-          ["Year", "Not available"],
-          ["Semester", "Not available"],
-          ["Campus", "VIT-AP Amaravati"],
+          ["Student ID", profile.registerNumber],
+          ["Program", profile.program || "Not available"],
+          ["Branch", profile.branch || "Not available"],
+          ["Semester", profile.semester || "Not available"],
+          ["Email", profile.email || "Not available"],
+          ["Phone", profile.phone || "Not available"],
         ]}
       />
-
     </InformationPage>
   );
 }
@@ -816,7 +914,78 @@ function ProfilePage() {
    ACADEMICS
 ===================================================== */
 
+
 function AcademicsPage() {
+  const [credits, setCredits] = useState([]);
+  const [curriculum, setCurriculum] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    const fetchAcademics = async () => {
+      try {
+        const token = localStorage.getItem("token");
+
+        const headers = {
+          Authorization: `Bearer ${token}`,
+        };
+
+        const [creditsResponse, curriculumResponse] =
+          await Promise.all([
+            fetch("http://localhost:5000/api/student/credits", {
+              headers,
+            }),
+            fetch("http://localhost:5000/api/student/curriculum", {
+              headers,
+            }),
+          ]);
+
+        const creditsData = await creditsResponse.json();
+        const curriculumData = await curriculumResponse.json();
+
+        if (!creditsResponse.ok) {
+          throw new Error(
+            creditsData.message || "Failed to load credits"
+          );
+        }
+
+        if (!curriculumResponse.ok) {
+          throw new Error(
+            curriculumData.message || "Failed to load curriculum"
+          );
+        }
+
+        setCredits(
+          Array.isArray(creditsData.data) ? creditsData.data : []
+        );
+
+        setCurriculum(
+          Array.isArray(curriculumData.data)
+            ? curriculumData.data
+            : []
+        );
+      } catch (err) {
+        setError(err.message || "Unable to load academic information.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchAcademics();
+  }, []);
+
+  const totalCredits = credits.reduce(
+    (sum, item) => sum + Number(item.credits || 0),
+    0
+  );
+
+  const earnedCredits = credits
+    .filter((item) =>
+      (item.status || "").toLowerCase() === "completed"
+    )
+    .reduce((sum, item) => sum + Number(item.credits || 0), 0);
+
+  const courses = curriculum.length > 0 ? curriculum : credits;
 
   return (
     <InformationPage
@@ -824,94 +993,198 @@ function AcademicsPage() {
       title="Academics"
       description="View curriculum, credits and academic progress."
     >
+      {loading ? (
+        <p>Loading academic information...</p>
+      ) : error ? (
+        <p role="alert">{error}</p>
+      ) : (
+        <>
+          <div className="three-cards">
+            <MiniInfo
+              title="Credits Earned"
+              value={earnedCredits}
+            />
+            <MiniInfo
+              title="Credits Listed"
+              value={totalCredits}
+            />
+            <MiniInfo
+              title="Current Semester"
+              value={credits[0]?.semester ?? "--"}
+            />
+          </div>
 
-      <div className="three-cards">
-
-        <MiniInfo
-          title="Credits Earned"
-          value="--"
-        />
-
-        <MiniInfo
-          title="Credits Required"
-          value="--"
-        />
-
-        <MiniInfo
-          title="Current Semester"
-          value="--"
-        />
-
-      </div>
-
-      <Table
-        headers={[
-          "Course",
-          "Code",
-          "Credits",
-          "Status",
-        ]}
-        rows={[]}
-        empty="Academic course information will appear here."
-      />
-
+          <Table
+            headers={["Course", "Code", "Credits", "Status"]}
+            rows={courses.map((item) => [
+              item.courseName,
+              item.courseCode,
+              item.credits,
+              item.status || item.category || "Not specified",
+            ])}
+            empty="No academic course information found."
+          />
+        </>
+      )}
     </InformationPage>
   );
 }
+
 
 /* =====================================================
    ATTENDANCE
 ===================================================== */
 
+
 function AttendancePage() {
+  const [attendance, setAttendance] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    const fetchAttendance = async () => {
+      try {
+        const token = localStorage.getItem("token");
+
+        const response = await fetch(
+          "http://localhost:5000/api/student/attendance/current",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.message || "Failed to load attendance");
+        }
+
+        setAttendance(Array.isArray(data.data) ? data.data : []);
+      } catch (err) {
+        setError(err.message || "Unable to load attendance.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchAttendance();
+  }, []);
+
+  const averageAttendance =
+    attendance.length > 0
+      ? (
+          attendance.reduce(
+            (sum, item) => sum + Number(item.percentage || 0),
+            0
+          ) / attendance.length
+        ).toFixed(2)
+      : "0.00";
+
+  const totalConducted = attendance.reduce(
+    (sum, item) => sum + Number(item.conducted || 0),
+    0
+  );
+
+  const totalAttended = attendance.reduce(
+    (sum, item) => sum + Number(item.attended || 0),
+    0
+  );
 
   return (
     <InformationPage
       icon="◷"
       title="Attendance"
-      description="View subject-wise and semester-wise attendance."
+      description="View subject-wise attendance."
     >
+      {loading ? (
+        <p>Loading attendance...</p>
+      ) : error ? (
+        <p role="alert">{error}</p>
+      ) : (
+        <>
+          <div className="three-cards">
+            <MiniInfo
+              title="Average Attendance"
+              value={`${averageAttendance}%`}
+            />
+            <MiniInfo
+              title="Classes Conducted"
+              value={totalConducted}
+            />
+            <MiniInfo
+              title="Classes Attended"
+              value={totalAttended}
+            />
+          </div>
 
-      <div className="three-cards">
-
-        <MiniInfo
-          title="Overall Attendance"
-          value="--"
-        />
-
-        <MiniInfo
-          title="Current Semester"
-          value="--"
-        />
-
-        <MiniInfo
-          title="Subjects"
-          value="--"
-        />
-
-      </div>
-
-      <Table
-        headers={[
-          "Subject",
-          "Faculty",
-          "Conducted",
-          "Present",
-          "Attendance",
-        ]}
-        rows={[]}
-        empty="Attendance information will appear here."
-      />
-
+          <Table
+            headers={[
+              "Subject",
+              "Code",
+              "Semester",
+              "Conducted",
+              "Attended",
+              "Attendance",
+            ]}
+            rows={attendance.map((item) => [
+              item.courseName,
+              item.courseCode,
+              item.semester,
+              item.conducted,
+              item.attended,
+              `${Number(item.percentage || 0).toFixed(2)}%`,
+            ])}
+            empty="No attendance information found."
+          />
+        </>
+      )}
     </InformationPage>
   );
 }
+
 
 /* =====================================================
    MENTOR
 ===================================================== */
 
+
 function MentorPage() {
+  const [mentor, setMentor] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    const fetchMentor = async () => {
+      try {
+        const token = localStorage.getItem("token");
+
+        const response = await fetch(
+          "http://localhost:5000/api/student/mentor",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.message || "Failed to load mentor details");
+        }
+
+        setMentor(data.data || null);
+      } catch (err) {
+        setError(err.message || "Unable to load mentor details.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchMentor();
+  }, []);
 
   return (
     <InformationPage
@@ -919,40 +1192,67 @@ function MentorPage() {
       title="Mentor Details"
       description="View your child's assigned mentor information."
     >
-
-      <div className="mentor-box">
-
-        <div className="large-avatar">
-          M
-        </div>
-
-        <div>
-
-          <span className="section-label">
-            MENTOR
-          </span>
-
-          <h2>
-            Mentor information
-          </h2>
-
-          <p>
-            Details will be displayed after backend integration.
-          </p>
-
-        </div>
-
-      </div>
-
+      {loading ? (
+        <p>Loading mentor details...</p>
+      ) : error ? (
+        <p role="alert">{error}</p>
+      ) : mentor ? (
+        <InfoGrid
+          items={[
+            ["Mentor Name", mentor.name || "Not available"],
+            ["Designation", mentor.designation || "Not available"],
+            ["Email", mentor.email || "Not available"],
+            ["Phone", mentor.phone || "Not available"],
+          ]}
+        />
+      ) : (
+        <p>No mentor information found.</p>
+      )}
     </InformationPage>
   );
 }
+
 
 /* =====================================================
    TIMETABLE
 ===================================================== */
 
+
 function TimetablePage() {
+  const [timetable, setTimetable] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    const fetchTimetable = async () => {
+      try {
+        const token = localStorage.getItem("token");
+
+        const response = await fetch(
+          "http://localhost:5000/api/student/timetable",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.message || "Failed to load timetable");
+        }
+
+        setTimetable(Array.isArray(data.data) ? data.data : []);
+      } catch (err) {
+        setError(err.message || "Unable to load timetable.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchTimetable();
+  }, []);
 
   return (
     <InformationPage
@@ -960,28 +1260,74 @@ function TimetablePage() {
       title="Timetable"
       description="View your child's class schedule."
     >
-
-      <Table
-        headers={[
-          "Day",
-          "Time",
-          "Course",
-          "Room",
-          "Faculty",
-        ]}
-        rows={[]}
-        empty="Timetable information will appear here."
-      />
-
+      {loading ? (
+        <p>Loading timetable...</p>
+      ) : error ? (
+        <p role="alert">{error}</p>
+      ) : (
+        <Table
+          headers={[
+            "Day",
+            "Time",
+            "Course",
+            "Room",
+            "Faculty",
+          ]}
+          rows={timetable.map((item) => [
+            item.day,
+            `${item.startTime} - ${item.endTime}`,
+            item.courseName,
+            item.room || "Not assigned",
+            item.faculty || "Not assigned",
+          ])}
+          empty="No timetable information found."
+        />
+      )}
     </InformationPage>
   );
 }
+
 
 /* =====================================================
    CALENDAR
 ===================================================== */
 
+
 function CalendarPage() {
+  const [events, setEvents] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    const fetchCalendar = async () => {
+      try {
+        const token = localStorage.getItem("token");
+
+        const response = await fetch(
+          "http://localhost:5000/api/student/academic-calendar",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.message || "Failed to load academic calendar");
+        }
+
+        setEvents(Array.isArray(data.data) ? data.data : []);
+      } catch (err) {
+        setError(err.message || "Unable to load academic calendar.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchCalendar();
+  }, []);
 
   return (
     <InformationPage
@@ -989,26 +1335,69 @@ function CalendarPage() {
       title="Academic Calendar"
       description="View important academic dates and events."
     >
-
-      <Table
-        headers={[
-          "Date",
-          "Event",
-          "Category",
-        ]}
-        rows={[]}
-        empty="Academic calendar information will appear here."
-      />
-
+      {loading ? (
+        <p>Loading academic calendar...</p>
+      ) : error ? (
+        <p role="alert">{error}</p>
+      ) : (
+        <Table
+          headers={["Date", "Event", "Description", "Semester"]}
+          rows={events.map((item) => [
+            item.eventDate
+              ? new Date(item.eventDate).toLocaleDateString()
+              : "Not available",
+            item.title,
+            item.description || "—",
+            item.semester ?? "—",
+          ])}
+          empty="No academic calendar events found."
+        />
+      )}
     </InformationPage>
   );
 }
+
 
 /* =====================================================
    EXAMS
 ===================================================== */
 
+
 function ExamPage() {
+  const [exams, setExams] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    const fetchExams = async () => {
+      try {
+        const token = localStorage.getItem("token");
+
+        const response = await fetch(
+          "http://localhost:5000/api/student/exams",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.message || "Failed to load exam schedule");
+        }
+
+        setExams(Array.isArray(data.data) ? data.data : []);
+      } catch (err) {
+        setError(err.message || "Unable to load exam schedule.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchExams();
+  }, []);
 
   return (
     <InformationPage
@@ -1016,28 +1405,70 @@ function ExamPage() {
       title="Exam Schedule"
       description="View upcoming examinations and schedules."
     >
-
-      <Table
-        headers={[
-          "Exam",
-          "Course",
-          "Date",
-          "Time",
-          "Venue",
-        ]}
-        rows={[]}
-        empty="Exam schedule information will appear here."
-      />
-
+      {loading ? (
+        <p>Loading exam schedule...</p>
+      ) : error ? (
+        <p role="alert">{error}</p>
+      ) : (
+        <Table
+          headers={["Exam", "Course", "Date", "Time", "Venue"]}
+          rows={exams.map((item) => [
+            item.examType,
+            item.courseName,
+            item.examDate
+              ? new Date(item.examDate).toLocaleDateString()
+              : "Not available",
+            item.startTime || "Not assigned",
+            item.room || "Not assigned",
+          ])}
+          empty="No exam schedule information found."
+        />
+      )}
     </InformationPage>
   );
 }
+
 
 /* =====================================================
    MARKS
 ===================================================== */
 
+
 function MarksPage() {
+  const [marks, setMarks] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    const fetchMarks = async () => {
+      try {
+        const token = localStorage.getItem("token");
+
+        const response = await fetch(
+          "http://localhost:5000/api/student/marks",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.message || "Failed to load marks");
+        }
+
+        setMarks(Array.isArray(data.data) ? data.data : []);
+      } catch (err) {
+        setError(err.message || "Unable to load marks.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchMarks();
+  }, []);
 
   return (
     <InformationPage
@@ -1045,132 +1476,183 @@ function MarksPage() {
       title="Marks"
       description="View authorized academic marks."
     >
-
-      <div className="three-cards marks-summary">
-
-        <MiniInfo
-          title="CAT 1"
-          value="--"
+      {loading ? (
+        <p>Loading marks...</p>
+      ) : error ? (
+        <p role="alert">{error}</p>
+      ) : (
+        <Table
+          headers={[
+            "Course",
+            "Code",
+            "Assessment",
+            "Marks",
+            "Maximum Marks",
+            "Semester",
+          ]}
+          rows={marks.map((item) => [
+            item.courseName,
+            item.courseCode,
+            item.assessment,
+            item.marks,
+            item.maxMarks,
+            item.semester,
+          ])}
+          empty="No marks information found."
         />
-
-        <MiniInfo
-          title="CAT 2"
-          value="--"
-        />
-
-        <MiniInfo
-          title="FAT"
-          value="--"
-        />
-
-      </div>
-
-      <Table
-        headers={[
-          "Course",
-          "CAT 1",
-          "CAT 2",
-          "FAT",
-          "Total",
-        ]}
-        rows={[]}
-        empty="Marks information will appear here."
-      />
-
+      )}
     </InformationPage>
   );
 }
+
 
 /* =====================================================
    GRADES
 ===================================================== */
 
+
 function GradesPage() {
+  const [grades, setGrades] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    const fetchGrades = async () => {
+      try {
+        const token = localStorage.getItem("token");
+
+        const response = await fetch(
+          "http://localhost:5000/api/student/grades",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.message || "Failed to load grades");
+        }
+
+        setGrades(Array.isArray(data.data) ? data.data : []);
+      } catch (err) {
+        setError(err.message || "Unable to load grade history.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchGrades();
+  }, []);
 
   return (
     <InformationPage
       icon="★"
       title="Grade History"
-      description="View semester-wise grade information."
+      description="View academic grade records."
     >
-
-      <div className="three-cards">
-
-        <MiniInfo
-          title="CGPA"
-          value="--"
+      {loading ? (
+        <p>Loading grades...</p>
+      ) : error ? (
+        <p role="alert">{error}</p>
+      ) : (
+        <Table
+          headers={[
+            "Course",
+            "Course Code",
+            "Grade",
+            "Grade Points",
+            "Semester",
+          ]}
+          rows={grades.map((item) => [
+            item.courseName,
+            item.courseCode,
+            item.grade,
+            item.gradePoints,
+            item.semester,
+          ])}
+          empty="No grade records found."
         />
-
-        <MiniInfo
-          title="Latest Semester"
-          value="--"
-        />
-
-        <MiniInfo
-          title="Completed Semesters"
-          value="--"
-        />
-
-      </div>
-
-      <Table
-        headers={[
-          "Semester",
-          "Credits",
-          "SGPA",
-          "CGPA",
-        ]}
-        rows={[]}
-        empty="Grade history will appear here."
-      />
-
+      )}
     </InformationPage>
   );
 }
+
 
 /* =====================================================
    PAYMENTS
 ===================================================== */
 
+
 function PaymentsPage() {
+  const [payments, setPayments] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    const fetchPayments = async () => {
+      try {
+        const token = localStorage.getItem("token");
+
+        const response = await fetch(
+          "http://localhost:5000/api/student/payments",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.message || "Failed to load payments");
+        }
+
+        setPayments(Array.isArray(data.data) ? data.data : []);
+      } catch (err) {
+        setError(err.message || "Unable to load payment history.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchPayments();
+  }, []);
 
   return (
     <InformationPage
       icon="₹"
       title="Payments"
-      description="View authorized payment and fee information."
+      description="View authorized student fee payment records."
     >
-
-      <div className="three-cards">
-
-        <MiniInfo
-          title="Total Paid"
-          value="--"
+      {loading ? (
+        <p>Loading payment history...</p>
+      ) : error ? (
+        <p role="alert">{error}</p>
+      ) : (
+        <Table
+          headers={[
+            "Transaction ID",
+            "Description",
+            "Amount",
+            "Payment Date",
+            "Status",
+          ]}
+          rows={payments.map((item) => [
+            item.transactionId,
+            item.description,
+            item.amount,
+            item.paymentDate
+              ? new Date(item.paymentDate).toLocaleDateString()
+              : "—",
+            item.status,
+          ])}
+          empty="No payment records found."
         />
-
-        <MiniInfo
-          title="Pending"
-          value="--"
-        />
-
-        <MiniInfo
-          title="Latest Payment"
-          value="--"
-        />
-
-      </div>
-
-      <Table
-        headers={[
-          "Date",
-          "Description",
-          "Amount",
-          "Status",
-        ]}
-        rows={[]}
-        empty="Payment information will appear here."
-      />
-
+      )}
     </InformationPage>
   );
 }
@@ -1179,37 +1661,81 @@ function PaymentsPage() {
    HOSTEL
 ===================================================== */
 
+
 function HostelPage() {
+  const [hostel, setHostel] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    const fetchHostel = async () => {
+      try {
+        const token = localStorage.getItem("token");
+
+        const response = await fetch(
+          "http://localhost:5000/api/student/hostel",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.message || "Failed to load hostel details");
+        }
+
+        setHostel(data.data || null);
+      } catch (err) {
+        setError(err.message || "Unable to load hostel details.");
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchHostel();
+  }, []);
 
   return (
     <InformationPage
       icon="⌂"
-      title="Hostel Information"
-      description="View authorized hostel information."
+      title="Hostel Details"
+      description="View authorized student accommodation details."
     >
-
-      <InfoGrid
-        items={[
-          ["Hostel", "Not available"],
-          ["Room", "Not available"],
-          ["Block", "Not available"],
-          ["Bed", "Not available"],
-          ["Mess", "Not available"],
-          ["Status", "Not available"],
-        ]}
-      />
-
+      {loading ? (
+        <p>Loading hostel details...</p>
+      ) : error ? (
+        <p role="alert">{error}</p>
+      ) : hostel ? (
+        <InfoGrid
+          items={[
+            ["Hostel", hostel.hostelName],
+            ["Block", hostel.block],
+            ["Room Number", hostel.roomNumber],
+            ["Floor", hostel.floor],
+            ["Bed Type", hostel.bedType],
+          ]}
+        />
+      ) : (
+        <p>No hostel information found.</p>
+      )}
     </InformationPage>
   );
 }
+
 
 /* =====================================================
    CHATBOT
 ===================================================== */
 
-function ChatbotPage({ t }) {
 
+function ChatbotPage({ t }) {
   const [message, setMessage] = useState("");
+  const [messages, setMessages] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState("");
 
   const suggestions = [
     "What is the attendance?",
@@ -1218,102 +1744,127 @@ function ChatbotPage({ t }) {
     "Show exam schedule",
   ];
 
+  const sendMessage = async (text = message) => {
+    const question = text.trim();
+
+    if (!question || loading) return;
+
+    setMessages((previous) => [
+      ...previous,
+      { role: "user", text: question },
+    ]);
+    setMessage("");
+    setError("");
+    setLoading(true);
+
+    try {
+      const token = localStorage.getItem("token");
+
+      const response = await fetch("http://localhost:5000/api/chat", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+        body: JSON.stringify({ message: question }),
+      });
+
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data.message || "Unable to get a response.");
+      }
+
+      setMessages((previous) => [
+        ...previous,
+        {
+          role: "bot",
+          text: data.answer || data.data?.answer || "No answer received.",
+        },
+      ]);
+    } catch (err) {
+      setError(err.message || "Could not connect to the chatbot backend.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
   return (
     <div className="chatbot-page">
-
       <div className="chatbot-header">
-
-        <div className="chatbot-avatar">
-          ◉
-        </div>
-
+        <div className="chatbot-avatar">◉</div>
         <div>
-
-          <span className="online-dot">
-            ● Online
-          </span>
-
-          <h2>
-            {t.aiTitle}
-          </h2>
-
-          <p>
-            {t.aiDescription}
-          </p>
-
+          <span className="online-dot">● Online</span>
+          <h2>{t.aiTitle}</h2>
+          <p>{t.aiDescription}</p>
         </div>
-
       </div>
 
       <div className="chat-area">
-
         <div className="bot-message">
-
-          <div className="bot-avatar">
-            AI
-          </div>
-
+          <div className="bot-avatar">AI</div>
           <div className="message-bubble">
-
-            <strong>
-              Hello! 👋
-            </strong>
-
-            <p>
-              {t.aiDescription}
-            </p>
-
+            <strong>Hello! 👋</strong>
+            <p>{t.aiDescription}</p>
           </div>
-
         </div>
 
+        {messages.map((item, index) => (
+          <div
+            key={`${index}-${item.role}`}
+            className={
+              item.role === "user" ? "user-message" : "bot-message"
+            }
+          >
+            {item.role === "bot" && (
+              <div className="bot-avatar">AI</div>
+            )}
+            <div className="message-bubble">
+              <p style={{ whiteSpace: "pre-line" }}>{item.text}</p>
+            </div>
+          </div>
+        ))}
+
+        {loading && <p>Getting your answer...</p>}
+
+        {error && <p role="alert">{error}</p>}
+
         <div className="suggestion-row">
-
           {suggestions.map((item) => (
-
             <button
               key={item}
-              onClick={() =>
-                setMessage(item)
-              }
+              disabled={loading}
+              onClick={() => sendMessage(item)}
             >
               {item}
             </button>
-
           ))}
-
         </div>
-
       </div>
 
       <div className="chat-input-area">
-
         <input
           type="text"
           placeholder="Ask about your child's information..."
           value={message}
-          onChange={(e) =>
-            setMessage(e.target.value)
-          }
+          disabled={loading}
+          onChange={(e) => setMessage(e.target.value)}
           onKeyDown={(e) => {
-
             if (e.key === "Enter") {
               e.preventDefault();
-              setMessage("");
+              sendMessage();
             }
-
           }}
         />
 
         <button
           className="send-button"
-          onClick={() => setMessage("")}
+          disabled={loading || !message.trim()}
+          onClick={() => sendMessage()}
         >
           ➤
         </button>
-
       </div>
-
     </div>
   );
 }
